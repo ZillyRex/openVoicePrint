@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 # @data: 1*dim array
 # @mean: 1*dim array
 # @cov: dim*dim array
+# @return: a real number of probability of the data given mean and cov.
 def Gaussian(data, mean, cov):
     dim = data.size
     cov_det = np.linalg.det(cov)
@@ -21,9 +22,12 @@ K = 5
 P = np.array([1/K for i in range(K)])
 mean = [[] for k in range(K)]
 for k in range(K):
+    # the random number is importent!
+    # the iteration won't go on if the initial mean points are all the same!
     mean[k] = np.mean(data, axis=0)+np.random.rand()*5
 cov = [0]*K
 for k in range(K):
+    # init the cov by the covariance of all the data
     cov[k] = np.cov(data.T)
 threshold = 0.001
 likelyhood = 0
