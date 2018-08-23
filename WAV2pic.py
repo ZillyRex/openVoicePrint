@@ -1,8 +1,9 @@
 import librosa
 import matplotlib.pyplot as plt
-from matplotlib import cm 
+from matplotlib import cm
 from matplotlib import axes
 import numpy as np
+import math
 
 
 def draw_heatmap(data, xlabels, ylabels):
@@ -48,7 +49,9 @@ def draw_heatmap(data, xlabels, ylabels):
 
 path = './test.wav'
 y, sr = librosa.load(path, sr=44100)
-X=[i for i in range(424)]
-Y=[i for i in range(442)]
-y=y.reshape(424,442)
-draw_heatmap(y,X,Y)
+N = math.ceil(math.sqrt(y.size))
+y=np.concatenate((y, np.array([0 for i in range(N*N-y.size)])))
+X = [i for i in range(N)]
+Y = [i for i in range(N)]
+y = y.reshape(N, N)
+draw_heatmap(y, X, Y)
